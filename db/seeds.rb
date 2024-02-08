@@ -13,11 +13,21 @@ require 'faker'
 Dog.destroy_all
 Dogsitter.destroy_all
 Stroll.destroy_all
+City.destroy_all
+
+#Remarque, on doit d'abord créer les villes avant de créer des dog et dogsitter car ces 2 tables utilisent l'id de la city
+20.times do
+  city = City.create!(city_name: Faker::Address.city)
+end
+
+cities = City.all
 
 100.times do
-  dog = Dog.create!(name: Faker::Creature::Dog.name)
-  dogsitter = Dogsitter.create!(name: Faker::Name.name)
+  dog = Dog.create!(name: Faker::Creature::Dog.name, city: cities.sample)
+end
 
+50.times do
+  dogsitter = Dogsitter.create!(name: Faker::Name.name, city: cities.sample)
 end
 
 dogs = Dog.all
@@ -26,3 +36,6 @@ dogsitters = Dogsitter.all
 100.times do
   stroll = Stroll.create!(dogsitter: dogsitters.sample, dog: dogs.sample)
 end
+
+
+

@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_08_115100) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_08_132841) do
+  create_table "cities", force: :cascade do |t|
+    t.string "city_name"
+  end
+
   create_table "dogs", force: :cascade do |t|
     t.string "name"
+    t.integer "city_id"
+    t.index ["city_id"], name: "index_dogs_on_city_id"
   end
 
   create_table "dogsitters", force: :cascade do |t|
     t.string "name"
+    t.integer "city_id"
+    t.index ["city_id"], name: "index_dogsitters_on_city_id"
   end
 
   create_table "strolls", force: :cascade do |t|
@@ -28,4 +36,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_08_115100) do
     t.index ["dogsitter_id"], name: "index_strolls_on_dogsitter_id"
   end
 
+  add_foreign_key "dogs", "cities"
+  add_foreign_key "dogsitters", "cities"
 end
